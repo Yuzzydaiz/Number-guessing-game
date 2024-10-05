@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #bdc3c7);
+            color: #ecf0f1;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #f39c12;
+            text-shadow: 2px 2px 0 #7f8c8d;
+        }
+        .container {
+            background-color: rgba(44, 62, 80, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+        label {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+        }
+        input[type="number"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #95a5a6;
+            width: 150px;
+            font-size: 1rem;
+            margin: 10px 0;
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+        button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background-color: #e67e22;
+        }
+        .result {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yuzzy Number Guessing Game</h1>
+    <div class="container">
+        <label for="min">Enter Minimum number:</label>
+        <input type="number" id="min" min="1" placeholder="Min">
+        <br>
+        <label for="max">Enter Maximum number:</label>
+        <input type="number" id="max" min="1" placeholder="Max">
+        <br>
+        <button onclick="startGame()">Start Game</button>
+
+        <div id="gameSection" style="display:none;">
+            <p id="hint"></p>
+            <input type="number" id="guess" placeholder="Your Guess">
+            <br>
+            <button onclick="checkGuess()">Submit Guess</button>
+        </div>
+        
+        <p class="result" id="result"></p>
+    </div>
+
+    <script>
+        let randomNumber;
+        let attempts = 0;
+
+        function startGame() {
+            const min = document.getElementById("min").value;
+            const max = document.getElementById("max").value;
+
+            if(min && max && min < max) {
+                randomNumber = Math.floor(Math.random() * (max - min + 1)) + parseInt(min);
+                document.getElementById("gameSection").style.display = "block";
+                document.getElementById("hint").innerHTML = `Guess the number between ${min} and ${max}:`;
+                document.getElementById("result").innerHTML = "";
+                attempts = 0;
+            } else {
+                alert("Please enter valid range values.");
+            }
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById("guess").value;
+            attempts++;
+
+            if (guess == randomNumber) {
+                document.getElementById("result").innerHTML = `🎉 Correct! You guessed it in ${attempts} tries.`;
+                document.getElementById("gameSection").style.display = "none";
+            } else if (guess > randomNumber) {
+                document.getElementById("result").innerHTML = "Too high! Try again.";
+            } else {
+                document.getElementById("result").innerHTML = "Too low! Try again.";
+            }
+        }
+    </script>
+</body>
+</html>
